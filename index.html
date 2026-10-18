@@ -52,7 +52,7 @@ h1{font-size:clamp(46px,8vw,108px);line-height:1.06;letter-spacing:-.05em}
 .reveal{opacity:0;translate:0 34px}
 .reveal.in{opacity:1;translate:0 0}
 .ph{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease,box-shadow .35s}
-.card:hover .ph,.card:focus-visible .ph{box-shadow:var(--sh)}
+.card:hover .ph,.card:focus-visible .ph{box-shadow:0 30px 50px -26px var(--ca,#0006)}
 .card:focus-visible .ph{outline:3px solid var(--acc);outline-offset:3px}
 .vis{position:absolute;inset:0;background:var(--c1);overflow:hidden}
 .vis::before{content:"";position:absolute;width:78%;aspect-ratio:1;border-radius:50%;background:var(--c2);top:-18%;right:-24%}
@@ -82,7 +82,7 @@ h1{font-size:clamp(46px,8vw,108px);line-height:1.06;letter-spacing:-.05em}
 .md{position:relative;display:grid;grid-template-columns:1.1fr 1fr;width:min(1000px,100%);max-height:92dvh;overflow:auto;background:var(--card);border-radius:28px;box-shadow:0 40px 90px -20px #000a;scale:.92;translate:0 30px;transition:scale .45s cubic-bezier(.2,1.2,.3,1),translate .45s cubic-bezier(.2,1.2,.3,1)}
 .ov.on .md{scale:1;translate:0 0}
 .x{position:absolute;right:14px;top:14px;z-index:6}
-.mv{padding:26px;background:var(--bg);display:flex;align-items:center}
+.mv{padding:26px;background:color-mix(in srgb,var(--c1,#ddd) 40%,var(--bg));display:flex;align-items:center}
 .win{width:100%;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--sh);background:var(--card)}
 .bar{display:flex;align-items:center;gap:6px;padding:10px 12px;border-bottom:1px solid var(--line)}
 .bar i{width:10px;height:10px;border-radius:50%;background:#ff5f57}
@@ -97,7 +97,7 @@ h1{font-size:clamp(46px,8vw,108px);line-height:1.06;letter-spacing:-.05em}
 .mi h4{margin-top:6px;font-size:15px}
 .ft{list-style:none;padding:0;display:grid;gap:9px}
 .ft li{display:flex;gap:10px;font-size:15px;opacity:0;translate:0 10px;animation:up .5s forwards}
-.ft li::before{content:"✓";flex:none;width:22px;height:22px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-size:12px;margin-top:2px}
+.ft li::before{content:"✓";flex:none;width:22px;height:22px;border-radius:50%;background:var(--a,var(--acc));color:#fff;display:grid;place-items:center;font-size:12px;margin-top:2px}
 .tg{display:flex;gap:6px;flex-wrap:wrap}
 .tg span{font-size:13px;padding:3px 12px;border-radius:99px;background:var(--bg);border:1px solid var(--line)}
 .act{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:14px}
@@ -111,8 +111,32 @@ footer{text-align:center;padding:36px 20px 50px;color:var(--mut);font-size:14px;
 @keyframes pop{40%{scale:1.5}}
 @keyframes up{to{opacity:1;translate:0 0}}
 @keyframes flip{50%{transform:scaleX(.12)}}
+::selection{background:var(--acc);color:#fff}
+.pg{position:absolute;left:0;bottom:-1px;height:3px;width:var(--p,0%);background:var(--acc)}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+#q{width:190px;padding:10px 18px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:500 14px 'Be Vietnam Pro',sans-serif;transition:width .35s cubic-bezier(.2,.8,.2,1),border-color .25s,box-shadow .25s}
+#q:focus{width:260px;outline:0;border-color:var(--acc);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 22%,transparent)}
+#fv{display:inline-flex;align-items:center}
+#fc{display:inline-grid;place-items:center;min-width:20px;height:20px;margin-left:8px;border-radius:99px;background:var(--acc);color:#fff;font-size:12px}
+.nq,#grid.fo .card:not(.lk){display:none}
+#none{text-align:center;color:var(--mut);padding:50px 0}
+.ph::before{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(240px circle at var(--gx,50%) var(--gy,50%),#fff8,transparent 65%);opacity:0;transition:opacity .3s}
+.card:hover .ph::before{opacity:1}
+#new{display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:34px;align-items:center;margin-bottom:46px;padding:16px;border-radius:30px;background:color-mix(in srgb,var(--c1,#ddd) 34%,var(--bg));cursor:pointer;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+#new:hover{transform:scale(1.012)}
+.nvis{position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden}
+#new small{color:var(--acc);font-weight:600}
+#new h3{font-size:clamp(28px,4vw,44px);margin:4px 0 8px}
+#new p{color:var(--mut);max-width:52ch;margin-bottom:18px}
+.shot svg>*{animation:pi .7s cubic-bezier(.2,1.3,.3,1) both}
+.md .btn.p{background:var(--a,var(--acc));border-color:var(--a,var(--acc))}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));translate:-50% 30px;opacity:0;z-index:300;background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:99px;font-weight:600;font-size:14px;pointer-events:none;transition:opacity .3s,translate .4s cubic-bezier(.2,1.2,.3,1)}
+.toast.on{opacity:1;translate:-50% 0}
+.bt{position:fixed;z-index:300;pointer-events:none;color:#ff3b5c;font-size:16px;animation:bt .8s ease-out forwards}
+@keyframes pi{from{opacity:0;translate:0 26px}}
+@keyframes bt{to{transform:translate(var(--x),var(--y)) scale(.4);opacity:0}}
 @media(max-width:820px){
-.hero{grid-template-columns:1fr;padding-top:30px}.col{height:370px}nav a{display:none}
+.hero{grid-template-columns:1fr;padding-top:30px}.col{height:370px}nav a{display:none}#new{grid-template-columns:1fr;gap:18px}#q{width:150px}
 .ov{align-items:end;padding:0}.md{grid-template-columns:1fr;border-radius:26px 26px 0 0;max-height:94dvh;padding-bottom:env(safe-area-inset-bottom,0px)}.mi{padding:24px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;translate:0 0}.ft li{opacity:1;translate:0 0}}
 </style>
@@ -121,19 +145,22 @@ footer{text-align:center;padding:36px 20px 50px;color:var(--mut);font-size:14px;
 <header>
 <a class="logo" href="#">Victervent<i></i></a>
 <nav><a href="#shop">Bộ sưu tập</a><button class="tb" id="th" aria-label="Đổi giao diện sáng hoặc tối">◐</button></nav>
+<i class="pg"></i>
 </header>
 <section class="hero" id="hero">
 <div>
 <h1>Chơi gì<br><span class="ol">hôm nay?</span></h1>
-<p>Bảy món chơi và công cụ do mình tự làm. Bấm vào một món để xem trước, rồi vào chơi luôn trên trình duyệt.</p>
+<p>Tám món chơi và công cụ do mình tự làm. Bấm vào một món để xem trước, rồi vào chơi luôn trên trình duyệt.</p>
 <div class="cta"><a class="btn" href="#shop">Xem bộ sưu tập</a><button class="btn g" id="rnd">Chọn giúp tôi</button></div>
 </div>
 <div class="col" id="col"></div>
 </section>
 <div class="mq"><div id="mq"></div></div>
 <main class="shop" id="shop">
-<div class="sh"><h2>Bộ sưu tập</h2><div class="chips" id="chips"></div></div>
+<div id="new"></div>
+<div class="sh"><h2>Bộ sưu tập</h2><div class="tools"><input id="q" type="search" placeholder="Tìm game (nhấn /)" aria-label="Tìm kiếm"><button class="chip" id="fv">♥ Yêu thích<b id="fc">0</b></button><div class="chips" id="chips"></div></div></div>
 <div class="grid" id="grid"></div>
+<p id="none" hidden>Chưa có món nào ở đây. Thử đổi bộ lọc hoặc từ khóa nhé.</p>
 </main>
 <div class="ov" id="ov" aria-hidden="true">
 <div class="md" role="dialog" aria-modal="true" aria-labelledby="mt">
@@ -142,6 +169,7 @@ footer{text-align:center;padding:36px 20px 50px;color:var(--mut);font-size:14px;
 <div class="mi" id="mi"></div>
 </div>
 </div>
+<div class="toast" id="toast" role="status"></div>
 <footer>© 2026 Victervent. Làm bằng ♥ cho cộng đồng game thủ Việt.</footer>
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],R=document.documentElement;
@@ -175,7 +203,11 @@ f:['Hỗ trợ từ lúc chọn hướng đến khi hoàn thiện bài','Giúp s
 {n:'Tự lập công ty',k:'Game quản trị',c:'fin',b:'Mới',c1:'#d7dcff',c2:'#bcc4ff',a:'#3544b0',u:'https://victervent.github.io/Game-CK/',img:'',
 s:'Làm CEO: lập công ty và điều hành từ con số 0.',
 l:'Trò chơi nhập vai quản trị: bạn tự lập công ty, đưa ra quyết định kinh doanh và xem doanh nghiệp lớn dần.',
-f:['Lập công ty từ con số 0','Ra quyết định kinh doanh và quản lý vốn','Theo dõi sự tăng trưởng của doanh nghiệp'],t:['Kinh doanh','Mô phỏng','Chơi một mình']}
+f:['Lập công ty từ con số 0','Ra quyết định kinh doanh và quản lý vốn','Theo dõi sự tăng trưởng của doanh nghiệp'],t:['Kinh doanh','Mô phỏng','Chơi một mình']},
+{n:'Heo đất',k:'Sổ chi tiêu',c:'fin',b:'Mới',c1:'#ffd0ea',c2:'#ffb3dc',a:'#c2307a',u:'https://victervent.github.io/Heo-t/',img:'',
+s:'Ghi chi tiêu mỗi ngày và nuôi heo đất đầy dần.',
+l:'Sổ chi tiêu và tiết kiệm cá nhân bằng tiếng Việt: ghi thu chi nhanh, theo dõi ngân sách tháng và các quỹ tiết kiệm của bạn.',
+f:['Ghi chi tiêu nhanh và theo dõi ngân sách tháng','Lập quỹ tiết kiệm và xem tiền tích lũy tăng dần','Tìm chỗ ăn uống ngay trong sổ'],t:['Tiết kiệm','Thu chi','Ngân sách']}
 ];
 const ART=[
 a=>[-24,-8,8,24].map((r,k)=>`<g transform="translate(200 330) rotate(${r*1.3})"><rect x="-48" y="-230" width="96" height="140" rx="12" fill="#fff" stroke="#0002" stroke-width="2"/><text x="-36" y="-200" font-size="22" font-weight="800" fill="${k%2?'#222':a}">${'AKQJ'[k]}</text><text y="-130" font-size="56" text-anchor="middle" fill="${k%2?'#222':a}">${'♥♠♦♣'[k]}</text></g>`).join(''),
@@ -186,6 +218,7 @@ a=>`<path d="M80 110a30 30 0 0 1 30-30h120a30 30 0 0 1 30 30v60a30 30 0 0 1-30 3
 a=>`<rect x="90" y="80" width="170" height="220" rx="16" fill="#fff"/>`+[0,1,2,3].map(k=>`<rect x="110" y="${106+k*20}" width="${k==3?70:130}" height="8" rx="4" fill="${a}" opacity=".35"/>`).join('')+[40,70,52,90].map((h,k)=>`<rect x="${112+k*30}" y="${280-h}" width="20" height="${h}" rx="5" fill="${a}"/>`).join('')+`<circle cx="268" cy="224" r="42" fill="#fff6" stroke="${a}" stroke-width="10"/><path d="M298 256l36 40" stroke="${a}" stroke-width="14" stroke-linecap="round"/>`,
 a=>[[80,52,120],[136,70,190],[214,50,100],[268,56,150]].map(([x,w,h],k)=>`<rect x="${x}" y="${300-h}" width="${w}" height="${h}" rx="8" fill="${k%2?'#fff':a}"/>`+[0,1,2,3,4].map(r=>`<rect x="${x+10}" y="${300-h+16+r*26}" width="${w-20}" height="8" rx="3" fill="${k%2?a:'#fff'}" opacity=".45"/>`).slice(0,Math.floor((h-20)/26)).join('')).join('')+`<path d="M171 110V70" stroke="${a}" stroke-width="4"/><path d="M171 70l34 11-34 11z" fill="#e5484d"/><rect x="60" y="300" width="290" height="10" rx="5" fill="${a}" opacity=".5"/>`
 ];
+ART.push(a=>`<path d='M84 222q-30-8-24-38' stroke='${a}' stroke-width='9' fill='none' stroke-linecap='round'/><rect x='124' y='288' width='32' height='46' rx='13' fill='${a}'/><rect x='214' y='288' width='32' height='46' rx='13' fill='${a}'/><ellipse cx='190' cy='232' rx='112' ry='84' fill='${a}'/><ellipse cx='150' cy='196' rx='30' ry='12' transform='rotate(-20 150 196)' fill='#fff5'/><path d='M262 168l14-36 32 26z' fill='${a}'/><ellipse cx='316' cy='236' rx='30' ry='24' fill='${a}'/><ellipse cx='316' cy='236' rx='30' ry='24' fill='#fff4'/><circle cx='308' cy='236' r='4.5' fill='${a}'/><circle cx='324' cy='236' r='4.5' fill='${a}'/><circle cx='278' cy='206' r='6' fill='#13111c'/><rect x='160' y='152' width='62' height='9' rx='4.5' fill='#0004'/><g class='flip'><circle cx='190' cy='100' r='30' fill='#ffc933' stroke='#e0a000' stroke-width='4'/><text x='190' y='111' font-size='30' font-weight='800' text-anchor='middle' fill='#a86a00'>₫</text></g>`);
 let fav=[],cur=0,last;try{fav=JSON.parse(localStorage.getItem('fav')||'[]')}catch(e){}
 const vis=i=>{const g=G[i];return `<div class="vis" style="--c1:${g.c1};--c2:${g.c2}"><svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[i](g.a)}</svg>${g.img?`<img src="${g.img}" alt="${g.n}" loading="lazy" onerror="this.remove()">`:''}</div>`};
 
@@ -196,13 +229,13 @@ const mt='Mở là chơi ✦ Miễn phí ✦ Không cần cài đặt ✦ Chạy
 
 /* Lưới sản phẩm */
 $('#chips').innerHTML=Object.entries(CT).map(([k,v])=>`<button class="chip${k=='all'?' on':''}" data-k="${k}">${v}</button>`).join('');
-$('#grid').innerHTML=G.map((g,i)=>`<article class="card reveal" style="--d:${i%4}" data-c="${g.c}" data-i="${i}" tabindex="0" role="button" aria-label="Xem trước ${g.n}"><div class="ph">${vis(i)}<span class="bd">${g.b}</span><button class="fav${fav.includes(i)?' on':''}" aria-label="Yêu thích">♥</button><span class="qv">Xem trước</span></div><div class="inf"><small>${g.k}</small><h3>${g.n}</h3><p>${g.s}</p><div class="row"><span class="pr">Miễn phí</span><span class="more">Xem chi tiết</span></div></div></article>`).join('');
+$('#grid').innerHTML=G.map((g,i)=>`<article class="card reveal${fav.includes(i)?' lk':''}" style="--d:${i%4};--ca:${g.a}" data-c="${g.c}" data-i="${i}" tabindex="0" role="button" aria-label="Xem trước ${g.n}"><div class="ph">${vis(i)}<span class="bd">${g.b}</span><button class="fav${fav.includes(i)?' on':''}" aria-label="Yêu thích">♥</button><span class="qv">Xem trước</span></div><div class="inf"><small>${g.k}</small><h3>${g.n}</h3><p>${g.s}</p><div class="row"><span class="pr">Miễn phí</span><span class="more">Xem chi tiết</span></div></div></article>`).join('');
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
 $$('.card').forEach(c=>io.observe(c));
 $('#chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;$$('.chip').forEach(x=>x.classList.toggle('on',x==b));$$('.card').forEach(c=>{c.classList.toggle('hide',b.dataset.k!='all'&&c.dataset.c!=b.dataset.k);c.classList.remove('in');requestAnimationFrame(()=>requestAnimationFrame(()=>c.classList.add('in')))})};
-$('#grid').onclick=e=>{const c=e.target.closest('.card');if(!c)return;const f=e.target.closest('.fav');if(f){fav=fav.includes(+c.dataset.i)?fav.filter(x=>x!=+c.dataset.i):[...fav,+c.dataset.i];f.classList.toggle('on',fav.includes(+c.dataset.i));try{localStorage.setItem('fav',JSON.stringify(fav))}catch(_){}return}openM(+c.dataset.i)};
+$('#grid').onclick=e=>{const c=e.target.closest('.card');if(!c)return;const f=e.target.closest('.fav');if(f){fav=fav.includes(+c.dataset.i)?fav.filter(x=>x!=+c.dataset.i):[...fav,+c.dataset.i];f.classList.toggle('on',fav.includes(+c.dataset.i));c.classList.toggle('lk',fav.includes(+c.dataset.i));fx(f,c);try{localStorage.setItem('fav',JSON.stringify(fav))}catch(_){}return}openM(+c.dataset.i)};
 $('#grid').onkeydown=e=>{if(e.key=='Enter'&&e.target.classList.contains('card'))openM(+e.target.dataset.i)};
-$('#grid').onpointermove=e=>{const c=e.target.closest('.card');if(!c||e.pointerType!='mouse')return;const r=c.querySelector('.ph').getBoundingClientRect();c.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*10+'deg');c.style.setProperty('--rx',(.5-(e.clientY-r.top)/r.height)*10+'deg')};
+$('#grid').onpointermove=e=>{const c=e.target.closest('.card');if(!c||e.pointerType!='mouse')return;const r=c.querySelector('.ph').getBoundingClientRect();c.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*10+'deg');c.style.setProperty('--gx',e.clientX-r.left+'px');c.style.setProperty('--gy',e.clientY-r.top+'px');c.style.setProperty('--rx',(.5-(e.clientY-r.top)/r.height)*10+'deg')};
 $('#grid').onpointerout=e=>{const c=e.target.closest('.card');if(c&&!c.contains(e.relatedTarget)){c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')}};
 
 /* Xem nhanh (hình demo + giới thiệu + link) */
@@ -210,14 +243,25 @@ const ov=$('#ov');
 function openM(i){cur=i;const g=G[i],u=new URL(g.u);if(!ov.classList.contains('on'))last=document.activeElement;
 $('#mv').innerHTML=`<div class="win"><div class="bar"><i></i><i></i><i></i><span class="url">🔒 ${u.host+u.pathname}</span></div><div class="shot">${vis(i)}</div></div>`;
 $('#mi').innerHTML=`<small>${g.k}</small><h2 id="mt">${g.n}</h2><p>${g.l}</p><h4>Khi vào bạn sẽ gặp</h4><ul class="ft">${g.f.map((x,k)=>`<li style="animation-delay:${.2+k*.1}s">${x}</li>`).join('')}</ul><div class="tg">${g.t.map(x=>`<span>${x}</span>`).join('')}</div><div class="act"><a class="btn p" href="${g.u}" target="_blank" rel="noopener noreferrer">Vào chơi ngay</a><button class="btn g" id="cp">Sao chép link</button></div><div class="nv"><button class="chip" id="pv">Trước</button><span>${i+1}/${G.length}</span><button class="chip" id="nx">Sau</button></div>`;
-$('#pv').onclick=()=>openM((cur+G.length-1)%G.length);$('#nx').onclick=()=>openM((cur+1)%G.length);
-$('#cp').onclick=async e=>{const b=e.currentTarget;try{await navigator.clipboard.writeText(g.u)}catch(_){const t=document.createElement('textarea');t.value=g.u;document.body.append(t);t.select();try{document.execCommand('copy')}catch(_){}t.remove()}b.textContent='Đã sao chép';setTimeout(()=>b.textContent='Sao chép link',1600)};
+const m=$('.md');m.style.setProperty('--c1',g.c1);m.style.setProperty('--a',g.a);$$('.shot svg>*').forEach((n,k)=>n.style.animationDelay=k*.06+'s');$('#pv').onclick=()=>openM((cur+G.length-1)%G.length);$('#nx').onclick=()=>openM((cur+1)%G.length);
+$('#cp').onclick=async e=>{const b=e.currentTarget;try{await navigator.clipboard.writeText(g.u)}catch(_){const t=document.createElement('textarea');t.value=g.u;document.body.append(t);t.select();try{document.execCommand('copy')}catch(_){}t.remove()}tt('Đã sao chép link');b.textContent='Đã sao chép';setTimeout(()=>b.textContent='Sao chép link',1600)};
 ov.classList.add('on');ov.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';$('#cl').focus({preventScroll:true})}
 function closeM(){ov.classList.remove('on');ov.setAttribute('aria-hidden','true');document.body.style.overflow='';last&&last.focus&&last.focus({preventScroll:true})}
 $('#cl').onclick=closeM;ov.onclick=e=>{if(e.target==ov)closeM()};
 addEventListener('keydown',e=>{if(!ov.classList.contains('on'))return;if(e.key=='Escape')closeM();if(e.key=='ArrowRight')$('#nx').click();if(e.key=='ArrowLeft')$('#pv').click()});
 $('#rnd').onclick=()=>openM(Math.floor(Math.random()*G.length));
 $('#th').onclick=()=>{const d=R.dataset.theme=='dark'||(!R.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);R.dataset.theme=d?'light':'dark'};
+const nz=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase();
+const emp=()=>{$('#none').hidden=$$('.card').some(c=>c.offsetParent)};
+$('#q').oninput=e=>{const v=nz(e.target.value.trim());$$('.card').forEach(c=>{const g=G[c.dataset.i];c.classList.toggle('nq',!!v&&!nz([g.n,g.k,g.s,...g.t].join(' ')).includes(v))});emp()};
+$('#fv').onclick=e=>{e.currentTarget.classList.toggle('on');$('#grid').classList.toggle('fo');emp()};
+$('#chips').addEventListener('click',()=>setTimeout(()=>{$('#fv').classList.toggle('on',$('#grid').classList.contains('fo'));emp()}));
+$('#fc').textContent=fav.length;
+const tt=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt.h);tt.h=setTimeout(()=>t.classList.remove('on'),2200)};
+const fx=(f,c)=>{const on=f.classList.contains('on');$('#fc').textContent=fav.length;tt((on?'Đã lưu ':'Đã bỏ ')+G[+c.dataset.i].n+(on?' vào Yêu thích':' khỏi Yêu thích'));if(on){const r=f.getBoundingClientRect();for(let k=0;k<9;k++){const s=document.createElement('i');s.className='bt';s.textContent='♥';s.style.cssText=`left:${r.left+12}px;top:${r.top+10}px;--x:${Math.cos(k*.7)*70}px;--y:${Math.sin(k*.7)*70-20}px`;document.body.append(s);setTimeout(()=>s.remove(),800)}}};
+{const i=G.length-1,g=G[i],n=$('#new');n.style.setProperty('--c1',g.c1);n.innerHTML=`<div class='nvis'>${vis(i)}</div><div><small>Mới lên kệ</small><h3>${g.n}</h3><p>${g.l}</p><button class='btn p'>Xem trước</button></div>`;n.onclick=()=>openM(i)}
+addEventListener('scroll',()=>R.style.setProperty('--p',scrollY/Math.max(1,R.scrollHeight-innerHeight)*100+'%'),{passive:true});
+addEventListener('keydown',e=>{if(e.key=='/'&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)&&!ov.classList.contains('on')){e.preventDefault();$('#q').focus()}});
 </script>
 </body>
 </html>
