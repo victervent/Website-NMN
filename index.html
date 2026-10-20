@@ -192,6 +192,18 @@ nav a:hover{background-size:100% 2px}
 /* Bàn phím và thanh cuộn */
 .btn:focus-visible,.chip:focus-visible,.tb:focus-visible,.fav:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 html{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--acc) 55%,var(--bg)) transparent}
+/* Cần @property thì viền xoay của thẻ "Mới lên kệ" mới chạy */
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+/* Huy hiệu có màu theo loại */
+.bd[data-b="Hot"],.bd[data-b="Mới"],.bd[data-b="Tiện ích"]{color:#fff}
+.bd[data-b="Hot"]{background:linear-gradient(135deg,#ff8a3d,#ff3b5c)}
+.bd[data-b="Mới"]{background:linear-gradient(135deg,#0f9d76,#3cc9a0)}
+.bd[data-b="Tiện ích"]{background:linear-gradient(135deg,#1a62b8,#4f8fe0)}
+/* Gạch nhấn dưới tiêu đề, tên game đổi sang màu riêng khi rê chuột */
+.sh h2::after{content:"";display:block;width:64px;height:6px;margin-top:12px;border-radius:9px;background:linear-gradient(90deg,var(--acc),#ff5c93,#ffc933)}
+.inf h3{transition:color .25s}
+.card:hover .inf h3{color:color-mix(in srgb,var(--ca,var(--acc)) 80%,var(--ink))}
+footer{border-image:linear-gradient(90deg,transparent,var(--acc),transparent) 1}
 </style>
 </head>
 <body>
@@ -264,7 +276,11 @@ f:['Ghi chi tiêu nhanh và theo dõi ngân sách tháng','Lập quỹ tiết ki
 {n:'Cờ Quán',k:'Quán cờ trực tuyến',c:'fun',b:'Mới',c1:'#d3e6ea',c2:'#b6d5dc',a:'#17606f',u:'https://victervent.github.io/CHESS/',img:'',
 s:'Đấu cờ với bạn bè hoặc với máy, có đồng hồ và giải đấu.',
 l:'Quán cờ trên trình duyệt: chọn đánh với người hoặc với máy, chỉnh độ khó và thời gian cho từng bên, rồi chơi một ván hay cả giải đấu.',
-f:['Chơi 2 người hoặc đấu với máy (dễ, vừa, khó)','Chọn thời gian mỗi bên, từ không giới hạn đến 15 phút','Đánh một ván hoặc cả giải đấu 3 hay 5 ván'],t:['Cờ','Đấu với máy','Giải đấu']}
+f:['Chơi 2 người hoặc đấu với máy (dễ, vừa, khó)','Chọn thời gian mỗi bên, từ không giới hạn đến 15 phút','Đánh một ván hoặc cả giải đấu 3 hay 5 ván'],t:['Cờ','Đấu với máy','Giải đấu']},
+{n:'Góc nhỏ',k:'Góc tự học',c:'edu',b:'Mới',c1:'#e6f5c2',c2:'#d3ec9a',a:'#4d7c0f',u:'https://victervent.github.io/Study-/',img:'',
+s:'Thư mục tài liệu và lịch học gọn gàng cho việc tự học.',
+l:'Góc tự học của riêng bạn: xem tài liệu theo từng thư mục, theo dõi lịch học và đổi giao diện sáng hoặc tối cho dễ nhìn.',
+f:['Xem tài liệu theo từng thư mục','Theo dõi lịch học của mình','Đổi giao diện sáng hoặc tối'],t:['Tự học','Tài liệu','Lịch học']}
 ];
 const ART=[
 a=>[-24,-8,8,24].map((r,k)=>`<g transform="translate(200 330) rotate(${r*1.3})"><rect x="-48" y="-230" width="96" height="140" rx="12" fill="#fff" stroke="#0002" stroke-width="2"/><text x="-36" y="-200" font-size="22" font-weight="800" fill="${k%2?'#222':a}">${'AKQJ'[k]}</text><text y="-130" font-size="56" text-anchor="middle" fill="${k%2?'#222':a}">${'♥♠♦♣'[k]}</text></g>`).join(''),
@@ -277,6 +293,7 @@ a=>[[80,52,120],[136,70,190],[214,50,100],[268,56,150]].map(([x,w,h],k)=>`<rect 
 ];
 ART.push(a=>`<path d='M84 222q-30-8-24-38' stroke='${a}' stroke-width='9' fill='none' stroke-linecap='round'/><rect x='124' y='288' width='32' height='46' rx='13' fill='${a}'/><rect x='214' y='288' width='32' height='46' rx='13' fill='${a}'/><ellipse cx='190' cy='232' rx='112' ry='84' fill='${a}'/><ellipse cx='150' cy='196' rx='30' ry='12' transform='rotate(-20 150 196)' fill='#fff5'/><path d='M262 168l14-36 32 26z' fill='${a}'/><ellipse cx='316' cy='236' rx='30' ry='24' fill='${a}'/><ellipse cx='316' cy='236' rx='30' ry='24' fill='#fff4'/><circle cx='308' cy='236' r='4.5' fill='${a}'/><circle cx='324' cy='236' r='4.5' fill='${a}'/><circle cx='278' cy='206' r='6' fill='#13111c'/><rect x='160' y='152' width='62' height='9' rx='4.5' fill='#0004'/><g class='flip'><circle cx='190' cy='100' r='30' fill='#ffc933' stroke='#e0a000' stroke-width='4'/><text x='190' y='111' font-size='30' font-weight='800' text-anchor='middle' fill='#a86a00'>₫</text></g>`);
 ART.push(a=>`<g transform="rotate(-6 200 210)">${[...Array(16)].map((_,k)=>{const r=k>>2,c=k&3;return `<rect x="${72+c*64}" y="${82+r*64}" width="64" height="64" fill="${(r+c)%2?a:'#fff'}" opacity="${(r+c)%2?.9:.95}"/>`}).join('')}<rect x="72" y="82" width="256" height="256" fill="none" stroke="${a}" stroke-width="6" rx="4"/></g><text x="200" y="300" font-size="190" text-anchor="middle" fill="#13111c" stroke="#fff" stroke-width="7" paint-order="stroke" font-family="'Segoe UI Symbol','Noto Sans Symbols 2',serif">♞</text><g class="flip"><text x="300" y="150" font-size="64" text-anchor="middle" fill="${a}" stroke="#fff" stroke-width="5" paint-order="stroke">♛</text></g>`);
+ART.push(a=>`<path d="M70 150a16 16 0 0 1 16-16h66l22 26h140a16 16 0 0 1 16 16v128a16 16 0 0 1-16 16H86a16 16 0 0 1-16-16z" fill="${a}" opacity=".35"/><path d="M70 190a16 16 0 0 1 16-16h228a16 16 0 0 1 16 16v110a16 16 0 0 1-16 16H86a16 16 0 0 1-16-16z" fill="${a}"/><path d="M100 250h150M100 280h96" stroke="#fff" stroke-width="9" stroke-linecap="round" opacity=".8"/><g transform="translate(212 88) rotate(6)"><rect width="128" height="116" rx="14" fill="#fff"/><rect width="128" height="30" rx="14" fill="#e5484d"/><rect y="16" width="128" height="14" fill="#e5484d"/>${[...Array(12)].map((_,k)=>`<rect x="${14+(k%4)*28}" y="${44+(k>>2)*22}" width="18" height="12" rx="3" fill="${k==6?a:'#0001'}"/>`).join('')}</g><g class="flip"><circle cx="110" cy="112" r="26" fill="#ffc933" stroke="#e0a000" stroke-width="4"/><text x="110" y="124" font-size="30" font-weight="800" text-anchor="middle" fill="#a86a00">★</text></g>`);
 let fav=[],cur=0,last;try{fav=JSON.parse(localStorage.getItem('fav')||'[]')}catch(e){}
 const vis=i=>{const g=G[i];return `<div class="vis" style="--c1:${g.c1};--c2:${g.c2}"><svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[i](g.a)}</svg>${g.img?`<img src="${g.img}" alt="${g.n}" loading="lazy" onerror="this.remove()">`:''}</div>`};
 
@@ -320,6 +337,12 @@ const fx=(f,c)=>{const on=f.classList.contains('on');$('#fc').textContent=fav.le
 {const i=G.length-1,g=G[i],n=$('#new');n.style.setProperty('--c1',g.c1);n.innerHTML=`<div class='nvis'>${vis(i)}</div><div><small>Mới lên kệ</small><h3>${g.n}</h3><p>${g.l}</p><button class='btn p'>Xem trước</button></div>`;n.onclick=()=>openM(i)}
 addEventListener('scroll',()=>R.style.setProperty('--p',scrollY/Math.max(1,R.scrollHeight-innerHeight)*100+'%'),{passive:true});
 addEventListener('keydown',e=>{if(e.key=='/'&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)&&!ov.classList.contains('on')){e.preventDefault();$('#q').focus()}});
+/* Huy hiệu có màu, nhãn lọc có biểu tượng, số món tự cập nhật */
+$$('.bd').forEach(b=>b.dataset.b=b.textContent);
+const ic={all:'✨',fun:'🎮',fin:'💰',edu:'📚'};
+$$('#chips .chip').forEach(b=>b.textContent=ic[b.dataset.k]+' '+CT[b.dataset.k]);
+const hp=$('#hero p');hp.textContent=hp.textContent.replace('Tám',G.length);
+</script>
 </script>
 </body>
 </html>
