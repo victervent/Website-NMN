@@ -192,18 +192,81 @@ nav a:hover{background-size:100% 2px}
 /* Bàn phím và thanh cuộn */
 .btn:focus-visible,.chip:focus-visible,.tb:focus-visible,.fav:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 html{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--acc) 55%,var(--bg)) transparent}
-/* Cần @property thì viền xoay của thẻ "Mới lên kệ" mới chạy */
+
+/* ===== Nâng cấp hiệu ứng ===== */
+/* Khai báo để viền chuyển màu của thẻ "Mới lên kệ" quay mượt */
 @property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
-/* Huy hiệu có màu theo loại */
-.bd[data-b="Hot"],.bd[data-b="Mới"],.bd[data-b="Tiện ích"]{color:#fff}
-.bd[data-b="Hot"]{background:linear-gradient(135deg,#ff8a3d,#ff3b5c)}
-.bd[data-b="Mới"]{background:linear-gradient(135deg,#0f9d76,#3cc9a0)}
-.bd[data-b="Tiện ích"]{background:linear-gradient(135deg,#1a62b8,#4f8fe0)}
-/* Gạch nhấn dưới tiêu đề, tên game đổi sang màu riêng khi rê chuột */
-.sh h2::after{content:"";display:block;width:64px;height:6px;margin-top:12px;border-radius:9px;background:linear-gradient(90deg,var(--acc),#ff5c93,#ffc933)}
-.inf h3{transition:color .25s}
-.card:hover .inf h3{color:color-mix(in srgb,var(--ca,var(--acc)) 80%,var(--ink))}
-footer{border-image:linear-gradient(90deg,transparent,var(--acc),transparent) 1}
+
+/* Hạt nhiễu mịn phủ toàn trang, tạo cảm giác giấy in */
+html::before{content:"";position:fixed;inset:0;z-index:55;pointer-events:none;opacity:.04;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Chữ "hôm nay?" được tô màu dâng lên từ dưới khi rê chuột vào phần đầu trang */
+.ol{background:linear-gradient(90deg,var(--acc),#ff5c93,#ffc933) no-repeat 0 100%/100% 0;
+  -webkit-background-clip:text;background-clip:text;
+  transition:background-size .8s cubic-bezier(.2,.8,.2,1)}
+.hero:hover .ol{background-size:100% 100%}
+
+/* Thanh đầu trang thu gọn khi cuộn, thanh tiến độ phát sáng */
+header{transition:padding .3s,box-shadow .3s}
+header.sc{padding-block:6px;box-shadow:0 16px 30px -24px #000}
+.pg{height:3px;background:linear-gradient(90deg,var(--acc),#ff5c93,#ffc933);box-shadow:0 0 14px var(--acc)}
+
+/* Nhãn Hot ánh kim chạy ngang */
+.bd[data-b="Hot"]{background:linear-gradient(110deg,#fff1a8,#ffb36b,#ff8a9a,#fff1a8) 0 0/200% 100%;animation:shine 3s linear infinite}
+@keyframes shine{to{background-position:200% 0}}
+
+/* Nút nhấn có phản hồi khi bấm */
+.btn:active,.chip:active{transform:scale(.96)}
+
+/* Cửa sổ xem trước: dải màu trên cùng và nền mờ đậm hơn */
+.ov{backdrop-filter:blur(10px) saturate(1.5)}
+.md::before{content:"";position:absolute;inset:0 0 auto;height:4px;z-index:5;
+  background:linear-gradient(90deg,var(--a,var(--acc)),#ff5c93,#ffc933)}
+
+/* Hàng "Chơi gần đây" */
+#rc{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:-14px 0 28px;font-size:14px;color:var(--mut)}
+#rc[hidden]{display:none}
+#rc button{display:inline-flex;gap:8px;align-items:center;padding:7px 14px 7px 10px;border-radius:99px;
+  border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 13px "Be Vietnam Pro",sans-serif;
+  cursor:pointer;transition:transform .25s,border-color .25s}
+#rc button:hover{transform:translateY(-2px);border-color:var(--d)}
+#rc i{width:10px;height:10px;border-radius:50%;background:var(--d)}
+
+/* Nút lên đầu trang kèm vòng tiến độ cuộn */
+#up{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:90;
+  width:48px;height:48px;border:0;border-radius:50%;cursor:pointer;color:var(--ink);font-size:18px;
+  background:radial-gradient(circle,var(--card) 56%,transparent 58%),conic-gradient(var(--acc) var(--p,0%),var(--line) 0);
+  box-shadow:var(--sh);opacity:0;translate:0 20px;pointer-events:none;
+  transition:opacity .3s,translate .4s cubic-bezier(.2,1.2,.3,1)}
+#up.on{opacity:1;translate:0 0;pointer-events:auto}
+#up:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+
+/* ===== Đợt 2: thêm hiệu ứng bắt mắt ===== */
+.hero{position:relative}
+.hero::before{content:"";position:absolute;right:-4%;top:-8%;width:min(520px,70vw);aspect-ratio:1;border-radius:50%;z-index:-1;pointer-events:none;
+  background:conic-gradient(var(--acc),#ff5c93,#ffc933,#3bd6a6,var(--acc));filter:blur(76px);opacity:.3;animation:rot 20s linear infinite}
+@keyframes rot{to{rotate:360deg}}
+.hc .vis{animation:float 7s ease-in-out infinite}
+.h1 .vis{animation-delay:-1s}.h2 .vis{animation-delay:-3.5s}.h3 .vis{animation-delay:-5s}
+@keyframes float{50%{transform:translateY(-12px)}}
+.logo i{animation:lp 2.4s ease-out infinite}
+@keyframes lp{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--acc) 60%,transparent)}100%{box-shadow:0 0 0 11px transparent}}
+.sh h2::after{content:"";display:block;width:64px;height:6px;margin-top:10px;border-radius:9px;background:linear-gradient(90deg,var(--acc),#ff5c93,#ffc933)}
+.md .btn.p{background:linear-gradient(110deg,var(--a,var(--acc)),color-mix(in srgb,var(--a,var(--acc)) 55%,#ff5c93))}
+footer{border-top-width:2px;border-image:linear-gradient(90deg,transparent,var(--acc),#ff5c93,transparent) 1}
+#glow{position:fixed;left:0;top:0;width:380px;height:380px;margin:-190px 0 0 -190px;border-radius:50%;z-index:-1;pointer-events:none;opacity:0;transition:opacity .5s;
+  background:radial-gradient(circle,color-mix(in srgb,var(--acc) 24%,transparent),transparent 65%)}
+.card.pick .ph{outline:4px solid var(--ca,var(--acc));outline-offset:4px;translate:0 -10px;box-shadow:0 30px 50px -20px var(--ca,var(--acc))}
+#pal{display:flex;gap:6px;align-items:center}
+#pal button{width:18px;height:18px;padding:0;border-radius:50%;border:2px solid var(--card);background:var(--c);cursor:pointer;box-shadow:0 0 0 1px var(--line);transition:transform .25s,box-shadow .25s}
+#pal button:hover{transform:scale(1.25)}
+#pal button.on{box-shadow:0 0 0 2px var(--ink)}
+.stars{display:flex;align-items:center;gap:2px;font-size:14px;color:var(--mut)}
+.stars button{border:0;background:none;padding:0 1px;font-size:24px;line-height:1;color:var(--line);cursor:pointer;transition:transform .2s,color .2s}
+.stars button.on,.stars button:hover{color:#ffb400}
+.stars button:hover{transform:scale(1.22) rotate(-8deg)}
+footer kbd{font:600 12px "Be Vietnam Pro",sans-serif;padding:1px 7px;border-radius:6px;border:1px solid var(--line);background:var(--card)}
 </style>
 </head>
 <body>
@@ -215,7 +278,7 @@ footer{border-image:linear-gradient(90deg,transparent,var(--acc),transparent) 1}
 <section class="hero" id="hero">
 <div>
 <h1>Chơi gì<br><span class="ol">hôm nay?</span></h1>
-<p>Tám món chơi và công cụ do mình tự làm. Bấm vào một món để xem trước, rồi vào chơi luôn trên trình duyệt.</p>
+<p>Mười món chơi và công cụ do mình tự làm. Bấm vào một món để xem trước, rồi vào chơi luôn trên trình duyệt.</p>
 <div class="cta"><a class="btn" href="#shop">Xem bộ sưu tập</a><button class="btn g" id="rnd">Chọn giúp tôi</button></div>
 </div>
 <div class="col" id="col"></div>
@@ -235,7 +298,7 @@ footer{border-image:linear-gradient(90deg,transparent,var(--acc),transparent) 1}
 </div>
 </div>
 <div class="toast" id="toast" role="status"></div>
-<footer>© 2026 Victervent. Làm bằng ♥ cho cộng đồng game thủ Việt.</footer>
+<footer>© Victervent</footer>
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],R=document.documentElement;
 const CT={all:'Tất cả',fun:'Giải trí',fin:'Tài chính',edu:'Học tập'};
@@ -277,10 +340,10 @@ f:['Ghi chi tiêu nhanh và theo dõi ngân sách tháng','Lập quỹ tiết ki
 s:'Đấu cờ với bạn bè hoặc với máy, có đồng hồ và giải đấu.',
 l:'Quán cờ trên trình duyệt: chọn đánh với người hoặc với máy, chỉnh độ khó và thời gian cho từng bên, rồi chơi một ván hay cả giải đấu.',
 f:['Chơi 2 người hoặc đấu với máy (dễ, vừa, khó)','Chọn thời gian mỗi bên, từ không giới hạn đến 15 phút','Đánh một ván hoặc cả giải đấu 3 hay 5 ván'],t:['Cờ','Đấu với máy','Giải đấu']},
-{n:'Góc nhỏ',k:'Góc tự học',c:'edu',b:'Mới',c1:'#e6f5c2',c2:'#d3ec9a',a:'#4d7c0f',u:'https://victervent.github.io/Study-/',img:'',
-s:'Thư mục tài liệu và lịch học gọn gàng cho việc tự học.',
-l:'Góc tự học của riêng bạn: xem tài liệu theo từng thư mục, theo dõi lịch học và đổi giao diện sáng hoặc tối cho dễ nhìn.',
-f:['Xem tài liệu theo từng thư mục','Theo dõi lịch học của mình','Đổi giao diện sáng hoặc tối'],t:['Tự học','Tài liệu','Lịch học']}
+{n:'Nigsio',k:'Máy tính khoa học',c:'edu',b:'Mới',c1:'#e4f2b8',c2:'#d2e895',a:'#4d6b0a',u:'https://victervent.github.io/Casino/',img:'',
+s:'Máy tính bấm kiểu Classwiz chạy ngay trên trình duyệt.',
+l:'Mô phỏng máy tính khoa học Nigsio motkikiX: tính toán, thống kê, phương trình, ma trận, vectơ, số phức, hệ cơ số, đồ thị, giải tích, hình học, vật lý và tài chính.',
+f:['Bấm phím SHIFT và ALPHA như máy thật','Giải phương trình, ma trận, vectơ, số phức, vẽ đồ thị','Xem lại lịch sử phép tính và tra thư viện hàm'],t:['Máy tính','Khoa học','Học tập']}
 ];
 const ART=[
 a=>[-24,-8,8,24].map((r,k)=>`<g transform="translate(200 330) rotate(${r*1.3})"><rect x="-48" y="-230" width="96" height="140" rx="12" fill="#fff" stroke="#0002" stroke-width="2"/><text x="-36" y="-200" font-size="22" font-weight="800" fill="${k%2?'#222':a}">${'AKQJ'[k]}</text><text y="-130" font-size="56" text-anchor="middle" fill="${k%2?'#222':a}">${'♥♠♦♣'[k]}</text></g>`).join(''),
@@ -293,7 +356,12 @@ a=>[[80,52,120],[136,70,190],[214,50,100],[268,56,150]].map(([x,w,h],k)=>`<rect 
 ];
 ART.push(a=>`<path d='M84 222q-30-8-24-38' stroke='${a}' stroke-width='9' fill='none' stroke-linecap='round'/><rect x='124' y='288' width='32' height='46' rx='13' fill='${a}'/><rect x='214' y='288' width='32' height='46' rx='13' fill='${a}'/><ellipse cx='190' cy='232' rx='112' ry='84' fill='${a}'/><ellipse cx='150' cy='196' rx='30' ry='12' transform='rotate(-20 150 196)' fill='#fff5'/><path d='M262 168l14-36 32 26z' fill='${a}'/><ellipse cx='316' cy='236' rx='30' ry='24' fill='${a}'/><ellipse cx='316' cy='236' rx='30' ry='24' fill='#fff4'/><circle cx='308' cy='236' r='4.5' fill='${a}'/><circle cx='324' cy='236' r='4.5' fill='${a}'/><circle cx='278' cy='206' r='6' fill='#13111c'/><rect x='160' y='152' width='62' height='9' rx='4.5' fill='#0004'/><g class='flip'><circle cx='190' cy='100' r='30' fill='#ffc933' stroke='#e0a000' stroke-width='4'/><text x='190' y='111' font-size='30' font-weight='800' text-anchor='middle' fill='#a86a00'>₫</text></g>`);
 ART.push(a=>`<g transform="rotate(-6 200 210)">${[...Array(16)].map((_,k)=>{const r=k>>2,c=k&3;return `<rect x="${72+c*64}" y="${82+r*64}" width="64" height="64" fill="${(r+c)%2?a:'#fff'}" opacity="${(r+c)%2?.9:.95}"/>`}).join('')}<rect x="72" y="82" width="256" height="256" fill="none" stroke="${a}" stroke-width="6" rx="4"/></g><text x="200" y="300" font-size="190" text-anchor="middle" fill="#13111c" stroke="#fff" stroke-width="7" paint-order="stroke" font-family="'Segoe UI Symbol','Noto Sans Symbols 2',serif">♞</text><g class="flip"><text x="300" y="150" font-size="64" text-anchor="middle" fill="${a}" stroke="#fff" stroke-width="5" paint-order="stroke">♛</text></g>`);
-ART.push(a=>`<path d="M70 150a16 16 0 0 1 16-16h66l22 26h140a16 16 0 0 1 16 16v128a16 16 0 0 1-16 16H86a16 16 0 0 1-16-16z" fill="${a}" opacity=".35"/><path d="M70 190a16 16 0 0 1 16-16h228a16 16 0 0 1 16 16v110a16 16 0 0 1-16 16H86a16 16 0 0 1-16-16z" fill="${a}"/><path d="M100 250h150M100 280h96" stroke="#fff" stroke-width="9" stroke-linecap="round" opacity=".8"/><g transform="translate(212 88) rotate(6)"><rect width="128" height="116" rx="14" fill="#fff"/><rect width="128" height="30" rx="14" fill="#e5484d"/><rect y="16" width="128" height="14" fill="#e5484d"/>${[...Array(12)].map((_,k)=>`<rect x="${14+(k%4)*28}" y="${44+(k>>2)*22}" width="18" height="12" rx="3" fill="${k==6?a:'#0001'}"/>`).join('')}</g><g class="flip"><circle cx="110" cy="112" r="26" fill="#ffc933" stroke="#e0a000" stroke-width="4"/><text x="110" y="124" font-size="30" font-weight="800" text-anchor="middle" fill="#a86a00">★</text></g>`);
+ART.push(a=>{const K=(x,y,w,h,f,t,tc,fs)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h>20?8:5}" fill="${f}"/><text x="${x+w/2}" y="${y+h/2+fs/3}" font-size="${fs}" font-weight="800" text-anchor="middle" fill="${tc}">${t}</text>`;
+let o=`<g transform="rotate(6 200 210)"><rect x="114" y="48" width="192" height="344" rx="28" fill="#0004"/><rect x="104" y="34" width="192" height="344" rx="28" fill="#2c3345"/><rect x="104" y="34" width="192" height="150" rx="28" fill="#fff" opacity=".07"/><rect x="106" y="36" width="188" height="340" rx="26" fill="none" stroke="#fff4" stroke-width="2"/><text x="118" y="56" font-size="12" font-weight="800" fill="#fff" letter-spacing="2">NIGSIO</text><text x="178" y="56" font-size="8" font-weight="800" fill="#ffd34d">motkikiX</text><rect x="236" y="46" width="48" height="12" rx="3" fill="#0b0e16"/><rect x="238" y="48" width="44" height="8" rx="2" fill="#6b4f3a"/><rect x="116" y="66" width="168" height="80" rx="10" fill="#0b0e16"/><rect x="120" y="70" width="160" height="72" rx="7" fill="#d3e6a0"/><rect x="120" y="70" width="160" height="30" rx="7" fill="#fff" opacity=".28"/><text x="127" y="82" font-size="8" font-weight="800" fill="#3f5a08" opacity=".7">S  D  Deg</text><text x="272" y="104" font-size="13" font-weight="700" text-anchor="end" fill="#3f5a08" opacity=".75">√(2)×π</text><text x="272" y="134" font-size="26" font-weight="800" text-anchor="end" fill="#1d2a03">4.4428829</text>`;
+o+=K(118,154,36,16,'#ffd34d','SHIFT','#3a2a00',8)+K(160,154,36,16,'#ff6b6b','ALPHA','#fff',8)+K(118,176,36,14,'#434b61','MENU','#cfd6ea',7)+K(160,176,36,14,'#434b61','ON','#cfd6ea',7)+`<circle cx="252" cy="168" r="23" fill="#434b61"/><circle cx="252" cy="168" r="9" fill="#2c3345"/><path d="M252 150l6 7h-12zM252 186l6-7h-12zM234 168l7-6v12zM270 168l-7-6v12z" fill="#cfd6ea"/>`;
+[['x²','√','log','sin','cos'],['(',')','x⁻¹','ln','tan']].forEach((r,j)=>r.forEach((t,c)=>o+=K(118+c*34,200+j*24,28,18,'#434b61',t,'#cfd6ea',9)));
+[['7','8','9','DEL','AC'],['4','5','6','×','÷'],['1','2','3','+','−'],['0','.','x10','Ans','=']].forEach((r,j)=>r.forEach((t,c)=>{const e=j==3&&c==4;o+=(e?'<g class="flip">':'')+K(118+c*34,252+j*29,28,24,e?'#ff8a3d':c<3?'#f4f6fa':j==0?(c==3?'#4a78e0':'#ff8a3d'):'#586079',t,c<3?'#1b1f2b':'#fff',t.length>2?9:13)+(e?'</g>':'')}));
+return o+'</g>'});
 let fav=[],cur=0,last;try{fav=JSON.parse(localStorage.getItem('fav')||'[]')}catch(e){}
 const vis=i=>{const g=G[i];return `<div class="vis" style="--c1:${g.c1};--c2:${g.c2}"><svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[i](g.a)}</svg>${g.img?`<img src="${g.img}" alt="${g.n}" loading="lazy" onerror="this.remove()">`:''}</div>`};
 
@@ -304,7 +372,7 @@ const mt='Mở là chơi ✦ Miễn phí ✦ Không cần cài đặt ✦ Chạy
 
 /* Lưới sản phẩm */
 $('#chips').innerHTML=Object.entries(CT).map(([k,v])=>`<button class="chip${k=='all'?' on':''}" data-k="${k}">${v}</button>`).join('');
-$('#grid').innerHTML=G.map((g,i)=>`<article class="card reveal${fav.includes(i)?' lk':''}" style="--d:${i%4};--ca:${g.a}" data-c="${g.c}" data-i="${i}" tabindex="0" role="button" aria-label="Xem trước ${g.n}"><div class="ph">${vis(i)}<span class="bd">${g.b}</span><button class="fav${fav.includes(i)?' on':''}" aria-label="Yêu thích">♥</button><span class="qv">Xem trước</span></div><div class="inf"><small>${g.k}</small><h3>${g.n}</h3><p>${g.s}</p><div class="row"><span class="pr">Miễn phí</span><span class="more">Xem chi tiết</span></div></div></article>`).join('');
+$('#grid').innerHTML=G.map((g,i)=>`<article class="card reveal${fav.includes(i)?' lk':''}" style="--d:${i%4};--ca:${g.a}" data-c="${g.c}" data-i="${i}" tabindex="0" role="button" aria-label="Xem trước ${g.n}"><div class="ph">${vis(i)}<span class="bd" data-b="${g.b}">${g.b}</span><button class="fav${fav.includes(i)?' on':''}" aria-label="Yêu thích">♥</button><span class="qv">Xem trước</span></div><div class="inf"><small>${g.k}</small><h3>${g.n}</h3><p>${g.s}</p><div class="row"><span class="pr">Miễn phí</span><span class="more">Xem chi tiết</span></div></div></article>`).join('');
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
 $$('.card').forEach(c=>io.observe(c));
 $('#chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;$$('.chip').forEach(x=>x.classList.toggle('on',x==b));$$('.card').forEach(c=>{c.classList.toggle('hide',b.dataset.k!='all'&&c.dataset.c!=b.dataset.k);c.classList.remove('in');requestAnimationFrame(()=>requestAnimationFrame(()=>c.classList.add('in')))})};
@@ -337,12 +405,70 @@ const fx=(f,c)=>{const on=f.classList.contains('on');$('#fc').textContent=fav.le
 {const i=G.length-1,g=G[i],n=$('#new');n.style.setProperty('--c1',g.c1);n.innerHTML=`<div class='nvis'>${vis(i)}</div><div><small>Mới lên kệ</small><h3>${g.n}</h3><p>${g.l}</p><button class='btn p'>Xem trước</button></div>`;n.onclick=()=>openM(i)}
 addEventListener('scroll',()=>R.style.setProperty('--p',scrollY/Math.max(1,R.scrollHeight-innerHeight)*100+'%'),{passive:true});
 addEventListener('keydown',e=>{if(e.key=='/'&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)&&!ov.classList.contains('on')){e.preventDefault();$('#q').focus()}});
-/* Huy hiệu có màu, nhãn lọc có biểu tượng, số món tự cập nhật */
-$$('.bd').forEach(b=>b.dataset.b=b.textContent);
-const ic={all:'✨',fun:'🎮',fin:'💰',edu:'📚'};
-$$('#chips .chip').forEach(b=>b.textContent=ic[b.dataset.k]+' '+CT[b.dataset.k]);
-const hp=$('#hero p');hp.textContent=hp.textContent.replace('Tám',G.length);
-</script>
+/* ===== Tính năng mới ===== */
+{
+/* 2. Chơi gần đây: nhớ 4 món vừa bấm "Vào chơi ngay" */
+let rc=[];try{rc=JSON.parse(localStorage.getItem('rc')||'[]')}catch(e){}
+const row=document.createElement('div');row.id='rc';$('.sh').before(row);
+const paint=()=>{row.hidden=!rc.length;row.innerHTML=rc.length?'<span>Chơi gần đây</span>'+rc.map(k=>`<button data-i="${k}" style="--d:${G[k].a}"><i></i>${G[k].n}</button>`).join(''):''};
+row.onclick=e=>{const b=e.target.closest('button');b&&openM(+b.dataset.i)};
+$('#mi').addEventListener('click',e=>{if(!e.target.closest('a.btn.p'))return;rc=[cur,...rc.filter(x=>x!=cur)].slice(0,4);try{localStorage.setItem('rc',JSON.stringify(rc))}catch(_){}paint()});
+paint();
+
+/* 3. Sắp xếp: mặc định, mới nhất, A đến Z */
+const st=document.createElement('button'),md=['↕ Mặc định','↕ Mới nhất','↕ A → Z'];let m=0;
+st.className='chip';st.textContent=md[0];$('#chips').before(st);
+st.onclick=()=>{m=(m+1)%3;st.textContent=md[m];const cs=$$('.card'),o=[...cs.keys()];
+if(m==1)o.reverse();if(m==2)o.sort((a,b)=>G[a].n.localeCompare(G[b].n,'vi'));
+o.forEach((k,p)=>cs[k].style.order=p)};
+
+/* 4. Link riêng cho từng món: index.html#nigsio mở thẳng cửa sổ xem trước */
+const slug=x=>nz(x).replace(/\W+/g,'-'),_o=openM,_c=closeM;
+openM=k=>{_o(k);history.replaceState(null,'','#'+slug(G[k].n))};
+closeM=()=>{_c();history.replaceState(null,'',location.pathname+location.search)};
+$('#cl').onclick=closeM;
+const h=location.hash.slice(1),j=G.findIndex(x=>slug(x.n)==h);if(j>=0)openM(j);
+
+/* 5. Thanh đầu trang thu gọn khi cuộn và nút lên đầu trang */
+const up=document.createElement('button');up.id='up';up.textContent='↑';up.setAttribute('aria-label','Lên đầu trang');
+up.onclick=()=>scrollTo({top:0});document.body.append(up);
+const hd=$('header');
+addEventListener('scroll',()=>{hd.classList.toggle('sc',scrollY>40);up.classList.toggle('on',scrollY>600)},{passive:true});
+}
+/* ===== Đợt 2: tính năng mới ===== */
+{
+/* Bảng màu chủ đề, nhớ lựa chọn */
+const PAL=['#5b3df5','#e5307a','#0f9b6e','#e07a00','#1a8fd6'],pal=document.createElement('span');pal.id='pal';
+pal.innerHTML=PAL.map(c=>`<button style="--c:${c}" data-c="${c}" aria-label="Màu chủ đề ${c}"></button>`).join('');$('#th').before(pal);
+const setAcc=c=>{R.style.setProperty('--acc',c);pal.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.c==c))};
+pal.onclick=e=>{const b=e.target.closest('button');if(!b)return;setAcc(b.dataset.c);try{localStorage.setItem('acc',b.dataset.c)}catch(_){}tt('Đã đổi màu chủ đề')};
+try{const v=localStorage.getItem('acc');if(v)setAcc(v)}catch(_){}
+
+/* Quầng sáng đi theo con trỏ chuột */
+const gl=document.createElement('div');gl.id='glow';document.body.append(gl);
+addEventListener('pointermove',e=>{if(e.pointerType!='mouse')return;gl.style.opacity=1;gl.style.transform=`translate(${e.clientX}px,${e.clientY}px)`},{passive:true});
+
+/* "Chọn giúp tôi": ánh sáng quay qua các thẻ rồi dừng ở một món */
+$('#rnd').onclick=()=>{const cs=$$('.card').filter(c=>c.offsetParent);if(!cs.length)return;cs.forEach(c=>c.classList.add('in'));
+const L=cs.length,w=Math.floor(Math.random()*L),n=L+w;let k=0,t=50;$('#shop').scrollIntoView({behavior:'smooth'});
+const step=()=>{cs.forEach(c=>c.classList.remove('pick'));cs[k%L].classList.add('pick');
+if(k++>=n){tt('Hôm nay chơi '+G[+cs[w].dataset.i].n+'!');setTimeout(()=>{cs[w].classList.remove('pick');openM(+cs[w].dataset.i)},650);return}t*=1.13;setTimeout(step,t)};
+setTimeout(step,450)};
+
+/* Cửa sổ xem trước: chấm sao, yêu thích và chia sẻ */
+let rt={};try{rt=JSON.parse(localStorage.getItem('rt')||'{}')}catch(_){}
+const _o2=openM;
+openM=k=>{_o2(k);const a=$('#mi .act'),f=$(`.card[data-i="${k}"] .fav`),r=document.createElement('div');r.className='stars';
+const ps=()=>r.innerHTML='Bạn chấm: '+[1,2,3,4,5].map(n=>`<button data-n="${n}" class="${n<=(rt[k]||0)?'on':''}" aria-label="${n} sao">★</button>`).join('');ps();
+r.onclick=e=>{const b=e.target.closest('button');if(!b)return;rt[k]=+b.dataset.n;try{localStorage.setItem('rt',JSON.stringify(rt))}catch(_){}ps();tt(`Đã chấm ${G[k].n} ${rt[k]} sao`)};a.before(r);
+const b=document.createElement('button');b.className='btn g';const sy=()=>b.textContent=f.classList.contains('on')?'♥ Đã yêu thích':'♡ Yêu thích';sy();b.onclick=()=>{f.click();sy()};a.append(b);
+if(navigator.share){const sh=document.createElement('button');sh.className='btn g';sh.textContent='Chia sẻ';sh.onclick=()=>navigator.share({title:G[k].n+' · Victervent',url:location.href}).catch(()=>{});a.append(sh)}};
+
+/* Phím tắt: T đổi giao diện, R chọn giúp, F chỉ xem yêu thích */
+addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||/INPUT|TEXTAREA/.test(document.activeElement.tagName)||$('#ov').classList.contains('on'))return;
+const k=e.key.toLowerCase();if(k=='t')$('#th').click();else if(k=='r')$('#rnd').click();else if(k=='f')$('#fv').click()});
+$('footer').insertAdjacentHTML('beforeend','<br><small>Phím tắt: <kbd>/</kbd> tìm kiếm · <kbd>T</kbd> đổi giao diện · <kbd>R</kbd> chọn giúp · <kbd>F</kbd> yêu thích</small>');
+}
 </script>
 </body>
 </html>
